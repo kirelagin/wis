@@ -1,0 +1,36 @@
+#wrap {
+    min-height: 100%;
+    height: auto !important;
+    height: 100%;
+    margin: 0px 0px -61px;
+}
+#push, #footer {
+    height: 60px;
+}
+#footer {
+    border-top: solid 1px #aaa;
+    background-color: #f9f9f9;
+    overflow: auto;
+}
+#footer > div {
+    padding-top: 10px;
+}
+#footer #stats {
+    float: left;
+    margin-left: 10px;
+}
+    time.timeago {
+    border-bottom: 1px dotted #999999;
+}
+#footer .credit {
+    float: right;
+}
+#footer .credit address {
+    width: 130px;
+    float: left;
+    margin: auto 6px;
+}
+#footer .credit address strong a {
+    color: #333;
+    text-decoration: underline;
+}

@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+
+{% block pagetitle %}{{ query }} — results{% endblock %}
+
+{% block head %}
+<link href="{{ STATIC_URL }}css/results.css" rel="stylesheet">
+{% endblock %}
+
+{% block body %}
+  <div class="container-fluid">
+    <div class="page-header">
+      {% include 'search.html' %}
+    </div>
+
+    {% if documents %}
+      <div id="results">
+        {% for doc in documents %}
+          {% if forloop.counter0|divisibleby:3 %}
+            {% if not forloop.first %}
+              </div>
+            {% endif %}
+            <div class="row-fluid">
+          {% endif %}
+          <div class="span4 well">
+            <h3><a href="{{ doc.url }}">{{ doc.title|safe }}</a></h3>
+            {% for p in doc.parts %}
+              <p>{{ p|safe }}</p>
+            {% endfor %}
+          </div>
+        {% endfor %}
+        </div>
+      </div>
+    {% else %}
+      <h5>You query returned no results. We are really sorry =(.</h5>
+    {% endif %}
+
+  </div>
+
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
+  <script src="{{ STATIC_URL }}bootstrap/js/bootstrap.min.js"></script>
+
+  <!--
+  Indexer returned {{ num_keywords }} keyword{{ num_keywords|pluralize }} with {{ num_positions }} position{{ num_positions|pluralize }}.
+  Query took {{ query_time }} seconds, processing took {{ proc_time }} seconds.
+  Articles contents rendered in {{ render_time }} seconds.
+  -->
+{% endblock body %}

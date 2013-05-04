@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+{% block pagetitle %}Wikipedia search. Awesome!{% endblock %}
+
+{% block head %}
+<link href="{{ STATIC_URL }}css/index.css" rel="stylesheet">
+{% endblock %}
+
+{% block body %}
+  <div id="wrap">
+    <div class="container-fluid">
+      <div class="page-header">
+        <h1>hi, bro! <small>Wanna search Wikipedia?</small></h1>
+      </div>
+      {% include 'search.html' %}
+    </div>
+
+    <div id="push"></div>
+  </div>
+
+  <div id="footer">
+    <div class="credit">
+      <address class="text-right">
+        <strong><a href="http://kir.elagin.me/">Kirill Elagin</a></strong><br>
+        <a href="mailto:#">kirelagin@gmail.com</a>
+      </address>
+      <address class="text-left">
+        <strong>Nikita Ofitserov</strong><br>
+        <a href="mailto:#">himikof@gmail.com</a>
+      </address>
+    </div>
+    <div id="stats" class="muted">
+      <p><small>Index updated <time class="timeago" datetime="{{ index_timestamp.iso }}">{{ index_timestamp.txt }}</time> (not really)</small></p>
+    </div>
+  </div>
+
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
+  <script src="{{ STATIC_URL }}bootstrap/js/bootstrap.min.js"></script>
+  <script src="{{ STATIC_URL }}js/jquery.timeago.js"></script>
+  <script>
+    $(document).ready(function() {
+      $("time.timeago").timeago();
+      $("time.timeago").tooltip({'placement': 'right'});
+    });
+  </script>
+{% endblock body %}

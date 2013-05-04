@@ -1,0 +1,12 @@
+h3 {
+    font-weight: normal;
+}
+span.match {
+    font-weight: bold;
+    background-color: #ffffaa;
+}
+
+h3 span.match {
+    font-weight: bold;
+    background-color: inherit;
+}
