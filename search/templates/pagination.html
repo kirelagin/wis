@@ -1,0 +1,14 @@
+<div class="pagination pagination-right">
+  <ul>
+    {% if page.number != 1 %}
+      <li><a href="?q={{ query }}&page=1">«</a></li>
+    {% endif %}
+    {% if page.has_previous %}
+      <li><a href="?q={{ query }}&page={{ page.previous_page_number }}">←</a></li>
+    {% endif %}
+    <li class="active"><span>{{ page.number }} / {{ page.paginator.num_pages }}</span></li>
+    {% if page.has_next %}
+      <li><a href="?q={{ query }}&page={{ page.next_page_number }}">→</a></li>
+    {% endif %}
+  </ul>
+</div>

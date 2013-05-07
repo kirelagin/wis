@@ -12,26 +12,38 @@
       {% include 'search.html' %}
     </div>
 
-    {% if documents %}
-      <div id="results">
-        {% for doc in documents %}
-          {% if forloop.counter0|divisibleby:3 %}
-            {% if not forloop.first %}
-              </div>
-            {% endif %}
-            <div class="row-fluid">
-          {% endif %}
-          <div class="span4 well">
-            <h3><a href="{{ doc.url }}">{{ doc.title|safe }}</a></h3>
-            {% for p in doc.parts %}
-              <p>{{ p|safe }}</p>
-            {% endfor %}
-          </div>
-        {% endfor %}
-        </div>
+    {% if message %}
+      <div class="alert">
+        <h5>{{ message.0 }}!</h5> {{ message.1 }}
       </div>
     {% else %}
-      <h5>You query returned no results. We are really sorry =(.</h5>
+      {% if documents %}
+        {% if page.number != 1 %}
+          {% include "pagination.html" %}
+        {% endif %}
+        <div id="results">
+          {% for doc in documents %}
+            {% if forloop.counter0|divisibleby:3 %}
+              {% if not forloop.first %}
+                </div>
+              {% endif %}
+              <div class="row-fluid">
+            {% endif %}
+            <div class="doc span4 well">
+              <h3><a href="http://en.wikipedia.org/wiki/{{ doc.title|urlencode }}">{{ doc.title|safe }}</a></h3>
+              {% for p in doc.parts %}
+                <p>… {{ p|safe }} …</p>
+              {% endfor %}
+            </div>
+          {% endfor %}
+          </div>
+        </div>
+        {% include "pagination.html" %}
+      {% else %}
+      <div class="alert alert-info">
+        You query returned no results. We are really sorry =(.
+      </div>
+      {% endif %}
     {% endif %}
 
   </div>
@@ -40,8 +52,8 @@
   <script src="{{ STATIC_URL }}bootstrap/js/bootstrap.min.js"></script>
 
   <!--
-  Indexer returned {{ num_keywords }} keyword{{ num_keywords|pluralize }} with {{ num_positions }} position{{ num_positions|pluralize }}.
-  Query took {{ query_time }} seconds, processing took {{ proc_time }} seconds.
-  Articles contents rendered in {{ render_time }} seconds.
+  Index queries took {{ timings.index }} seconds, MongoDB queries took {{ timings.mongo }} seconds, processing took {{ timings.proc }} seconds.
+  Articles contents rendered in {{ timings.render }} seconds.
+  Total of {{ count }} document{{ count|pluralize }} found.
   -->
 {% endblock body %}

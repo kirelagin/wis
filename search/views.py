@@ -3,8 +3,10 @@
 import datetime as dt
 from django.http import Http404
 from django.template.response import TemplateResponse
+from django.core.paginator import Paginator, EmptyPage
+from rpcz import RpcDeadlineExceeded
 
-import core.python.search as srch
+from core.python.search import Searcher, NotEnoughEntropy
 
 
 def index(request):
@@ -13,20 +15,35 @@ def index(request):
   return TemplateResponse(request, 'index.html', {'index_timestamp': index_timestamp})
 
 def search(request):
-  query = request.GET.get('q')
-  if not query: raise Http404
+  query = request.GET.get('q', '')
 
   span_hilight = lambda w: '<span class="match">' + w + '</span>'
 
-  ans = srch.search(query)
-  rendered = srch.show_documents(ans.postings, span_hilight)
+  try:
+    searcher = Searcher(query, server='tcp://localhost:5550')
+    results = searcher.results
+    paginator = Paginator(results, 12)
+    try:
+      page = int(request.GET.get('page', 1))
+      if page < 0: raise TypeError()
+      page = paginator.page(page)
+    except (TypeError, EmptyPage):
+      raise Http404
 
-  docs = rendered.docs
 
-  return TemplateResponse(request, 'results.html', {'query': query,
-                                                    'documents': docs,
-                                                    'num_keywords': ans.num_keywords,
-                                                    'num_positions': ans.num_positions,
-                                                    'query_time': ans.query_time,
-                                                    'proc_time': ans.proc_time,
-                                                    'render_time': rendered.render_time})
+    docs = [searcher.show_document(d, span_hilight) for d in page]
+
+    return TemplateResponse(request, 'results.html', {'query': query,
+                                                      'documents': docs,
+                                                      'page': page,
+                                                      'count': len(searcher.results),
+                                                      'timings': searcher.timings,
+                                                     })
+  except NotEnoughEntropy:
+    return TemplateResponse(request, 'results.html', {'query': query,
+                                                      'message': ("Bad query", "Your query does not contain enough entropy. Please, try something more interesting."),
+                                                     })
+  except RpcDeadlineExceeded:
+    return TemplateResponse(request, 'results.html', {'query': query,
+                                                      'message': ("We failed", "Index server seems to be unreachable. You might want to try again right now or, if still isn't working, come back later."),
+                                                     })
