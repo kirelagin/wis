@@ -1,6 +1,9 @@
-h3 {
-    font-weight: normal;
+.doc {
+  max-height: 400px;
+  height: 400px;
+  overflow-y: auto;
 }
+
 span.match {
     font-weight: bold;
     background-color: #ffffaa;
