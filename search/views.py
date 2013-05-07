@@ -45,5 +45,5 @@ def search(request):
                                                      })
   except RpcDeadlineExceeded:
     return TemplateResponse(request, 'results.html', {'query': query,
-                                                      'message': ("We failed", "Index server seems to be unreachable. You might want to try again right now or, if still isn't working, come back later."),
+                                                      'message': ("We failed", "Index server seems to be unreachable. You might want to try again right now or, if it still isn't working, come back later."),
                                                      })
