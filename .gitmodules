@@ -4,4 +4,4 @@
     ignore = untracked
 [submodule "core"]
 	path = core
-	url = git@github.com:himikof/coursework-rtree.git
+	url = git@github.com:himikof/wis-core.git
