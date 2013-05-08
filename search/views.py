@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import datetime as dt
+import pytz
 from django.http import Http404
 from django.template.response import TemplateResponse
 from django.core.paginator import Paginator, EmptyPage
@@ -10,8 +11,8 @@ from core.python.search import Searcher, NotEnoughEntropy
 
 
 def index(request):
-  t = dt.datetime.now() - dt.timedelta(minutes=10)
-  index_timestamp = {'iso': t.isoformat(), 'txt': 'no idea'}
+  t = dt.datetime(year=2013, month=5, day=3, hour=9, minute=41, second=8, tzinfo=pytz.utc)
+  index_timestamp = {'iso': t.isoformat(), 'txt': t.strftime('%d %B %Y, %H:%M (UTC)')}
   return TemplateResponse(request, 'index.html', {'index_timestamp': index_timestamp})
 
 def search(request):

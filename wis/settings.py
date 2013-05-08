@@ -1,5 +1,3 @@
-# Django settings for wis project.
-
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
