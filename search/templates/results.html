@@ -10,6 +10,15 @@
   <div class="container-fluid">
     <div class="page-header">
       {% include 'search.html' %}
+
+      {% if corrected %}
+      <div class="alert alert-success">
+        <small>
+          <b>We tried to guess what you meant</b>
+          <p>Please, check your spelling of the word{{ corrected|pluralize }} {{ corrected|join:", " }}.</p>
+        </small>
+      </div>
+      {% endif %}
     </div>
 
     {% if message %}

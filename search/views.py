@@ -32,12 +32,14 @@ def search(request):
 
 
     docs = [searcher.show_document(d, span_hilight) for d in page]
+    corrected = map(lambda p: u'“' + p[0] + u'”', searcher.corrected)
 
     return TemplateResponse(request, 'results.html', {'query': query,
                                                       'documents': docs,
                                                       'page': page,
                                                       'count': len(searcher.results),
                                                       'timings': searcher.timings,
+                                                      'corrected': corrected,
                                                      })
   except NotEnoughEntropy:
     return TemplateResponse(request, 'results.html', {'query': query,
