@@ -41,6 +41,7 @@ def search(request):
                                                       'count': len(searcher.results),
                                                       'timings': searcher.timings,
                                                       'corrected': corrected,
+                                                      'searcher': searcher,
                                                      })
   except NotEnoughEntropy:
     return TemplateResponse(request, 'results.html', {'query': query,

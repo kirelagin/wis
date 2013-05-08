@@ -61,8 +61,13 @@
   <script src="{{ STATIC_URL }}bootstrap/js/bootstrap.min.js"></script>
 
   <!--
-  Index queries took {{ timings.index }} seconds, MongoDB queries took {{ timings.mongo }} seconds, processing took {{ timings.proc }} seconds.
+  Index queries took {{ timings.index }} seconds,
+  processing took {{ timings.proc }} seconds,
+  ranking (+ MongoDB queries) took {{ timings.ranking }} seconds.
+
   Articles contents rendered in {{ timings.render }} seconds.
   Total of {{ count }} document{{ count|pluralize }} found.
+  {% if searcher.correct_deadline %}Correction deadline EXCCEEDED.{% endif %}
+  {% if searcher.extraquery_deadline %}Extraquery deadline EXCCEEDED.{% endif %}
   -->
 {% endblock body %}
