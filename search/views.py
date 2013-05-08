@@ -5,6 +5,7 @@ import pytz
 from django.http import Http404
 from django.template.response import TemplateResponse
 from django.core.paginator import Paginator, EmptyPage
+from django.conf import settings
 from rpcz import RpcDeadlineExceeded
 
 from core.python.search import Searcher, NotEnoughEntropy
@@ -21,7 +22,7 @@ def search(request):
   span_hilight = lambda w: '<span class="match">' + w + '</span>'
 
   try:
-    searcher = Searcher(query, server='tcp://localhost:5550')
+    searcher = Searcher(query, settings.MONGO_CRED, server='tcp://localhost:5550')
     results = searcher.results
     paginator = Paginator(results, 12)
     try:

@@ -18,6 +18,13 @@ DATABASES = {
     }
 }
 
+MONGO_CRED = {
+    'db': '',
+    'user': '',
+    'password': '',
+    'host': '',
+}
+
 # Hosts/domain names that are valid for this site; required if DEBUG is False
 # See https://docs.djangoproject.com/en/1.4/ref/settings/#allowed-hosts
 ALLOWED_HOSTS = [ 'wis.kir.elagin.me' ]
@@ -153,3 +160,8 @@ LOGGING = {
         },
     }
 }
+
+
+import nltk
+
+nltk.data.path = [None] # put a path here
